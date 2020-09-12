@@ -304,6 +304,10 @@ function eternal_life(init_state)
     
 };
 
+function setCanvasWidth() {
+  document.getElementById("defaultCanvas0").style.width = "100%"
+};
+
 // Stop/Start Button
 function checkLoop() {
   var _value = document.getElementById("loop-button").value;
@@ -311,39 +315,78 @@ function checkLoop() {
   if (_value === "no-loop") {
     document.getElementById("loop-button").value = "looping";
     document.getElementById("loop-button").innerText = "stop"
+    document.getElementById("loop-button").classList.remove("btn-success");
+    document.getElementById("loop-button").classList.add("btn-danger");
     loop();
 
   } else {
     document.getElementById("loop-button").value = "no-loop";
     document.getElementById("loop-button").innerText = "start"
+    document.getElementById("loop-button").classList.remove("btn-danger")
+    document.getElementById("loop-button").classList.add("btn-success")
     noLoop();
     
   }
 };
 
+function switchBoard() {
+  var _looping = document.getElementById("loop-button").value;
+
+  if(_looping == "looping") {
+    checkLoop();
+  }
+}
+
 function loadGosper() {
+  switchBoard();
   arr = _ggg;
   document.getElementById("board-title").innerText = "Gosper Glider Gun"
   setup((arr[0].length * scale), (arr.length * scale-60));
   draw();
+  setCanvasWidth();
 };
 
 function loadToad() {
+  switchBoard();
   arr = _toad;
   document.getElementById("board-title").innerText = "Toad"
   setup();
   draw();
+  setCanvasWidth();
 };
 
 function genRandomBoard() {
+  switchBoard();
   arr = random_state(40, 30);
   document.getElementById("board-title").innerText = "Random Board"
   setup();
   draw();
+  setCanvasWidth();
 };
 
 function createYourOwn() {
+  switchBoard();
+  var _modelContent = document.getElementById("custom-board").value;
 
+  var _split = _modelContent.split('\n');
+
+  var custom_board = [];
+  var c_row = []
+  for (var row of _split) {
+    for(var col of row) {
+      c_row.push(parseInt(col));
+    };
+    custom_board.push(c_row);
+    c_row = [];
+  };
+
+  document.getElementById("board-title").innerText = "Custom Board"
+  arr = custom_board;
+  setup();
+  draw();
+  setCanvasWidth();
+
+  $('#exampleModal').modal('hide')
 };
 
 // random board to start with
@@ -356,33 +399,37 @@ function setup(_w=(arr[0].length * scale), _y=(arr.length * scale)) {
   createCanvas(_w, _y);
   noLoop();
   frameRate(8);
+  setCanvasWidth();
 };
 
 function draw() {
 background(51);
 
-arr = next_board_state(arr);
+if(isLooping()) {
+  arr = next_board_state(arr);
+}
 
 //Get the length of columns 'x axis' -- cell
 for(var i = 0; i < arr[0].length; i ++) {
-    //Get the length of rows 'y axis' -- row
-    for(var j = 0; j < arr.length; j++) {
-        
-        // create current location in x-y co-ords to place the grids
-        var x = i * scale;
-        var y = j * scale;
+  //Get the length of rows 'y axis' -- row
+  for(var j = 0; j < arr.length; j++) {
+      
+      // create current location in x-y co-ords to place the grids
+      var x = i * scale;
+      var y = j * scale;
 
-        if(arr[j][i] === 1) {
-            fill(0);
-            stroke(0);
-            // create a shape at x and y and then fill (scale number) on the y(up) and (scale number) on the x (right)
-            rect(x, y, scale, scale)
-        } else {
-            fill(255);
-            stroke(0);
-            rect(x, y, scale, scale)
-        }
-    }
+      if(arr[j][i] === 1) {
+          fill(0);
+          stroke(0);
+          // create a shape at x and y and then fill (scale number) on the y(up) and (scale number) on the x (right)
+          rect(x, y, scale, scale)
+      } else {
+          fill(255);
+          stroke(0);
+          rect(x, y, scale, scale)
+      }
   }
+}
+
 };
 

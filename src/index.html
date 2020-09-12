@@ -3,80 +3,109 @@
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <script defer src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
     <script defer src="./js/index.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 text-center">
-                <h2 class="mb-2">Conway's Game Of Life</h2> 
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12 col-lg-3"></div>
+
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="mt-3 col-12 text-center">
+                            <h4 id="board-title" class="mb-2"> Random board </h4>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <main> </main>
+                    </div>
+                </div>
+            
+                <div class="container">
+                    <div class="row justify-content-center mb-2">
+                        <button class="btn btn-success" id="loop-button" onclick="checkLoop()" value="no-loop"> 
+                            Start 
+                        </button>
+                    </div>
+            
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <button class="btn btn-dark mx-1" id="loop-button" onclick="loadGosper()"> 
+                            GGG 
+                        </button>
+                        <button class="btn btn-dark mx-1" id="loop-button" onclick="loadToad()"> 
+                            Toad 
+                        </button>
+                        <button class="btn btn-dark mx-1" id="loop-button" onclick="genRandomBoard()"> 
+                            Random
+                        </button>
+                         <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">
+                            Create Your Own
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 text-center">
-                <h4 id="board-title" class="mb-2"> Random board </h4>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-3">
+            <div class="container">
+                <div class="row">
+                    <h4 class="mt-5 mb-3">Conway's Game of Life</h4>
+                </div>
+                <div class="row">
+                    <p>
+                        Game of Life (or just “Life”) is not really a game. There’s no winning or losing or destroying your opponent mentally and spiritually. 
+                        <br><br>
+                        Life is a “cellular automaton” - a system of cells that live on a grid, where they live, die and evolve according to the rules that govern their world.
+                    </p>
+                </div>
+                <div class="row">
+                    <h4 class="mt-4">Game Rules</h4>
+                </div>
+                <div class="row">
+                    <p>Each iteration the cells update according to 4 rules:</p>
+                    <ul>
+                        <li> Any live cell with 0 or 1 live neighbors becomes dead, because of underpopulation</li>
+                        <li>Any live cell with 2 or 3 live neighbors stays alive, because its neighborhood is just right</li>
+                        <li>Any live cell with more than 3 live neighbors becomes dead, because of overpopulation</li>
+                        <li> Any dead cell with exactly 3 live neighbors becomes alive, by reproduction</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="container">
-        <div class="row justify-content-center">
-            <main> </main>
-        </div>
-    </div>
 
-    <div class="container">
-        <div class="row justify-content-center mb-2">
-            <button class="btn btn-success" id="loop-button" onclick="checkLoop()" value="no-loop"> 
-                Start 
-            </button>
-        </row>
-    </div>
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <button class="btn btn-success mx-1" id="loop-button" onclick="loadGosper()"> 
-                GGG 
-            </button>
-            <button class="btn btn-success mx-1" id="loop-button" onclick="loadToad()"> 
-                Toad 
-            </button>
-            <button class="btn btn-success mx-1" id="loop-button" onclick="genRandomBoard()"> 
-                Random
-            </button>
-             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-                Create Your Own
-            </button>
-        </div>
-    </div>
-
-        
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Load Your Own Board</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 </div>
                 <div class="modal-body">
                     <div class="input-group">
-                        <textarea name="user-message" id="user-message" class="form-control" cols="20" rows="10" placeholder="Create Your own board in the following format: 
-                        0000000
-                        0000110
-                        0110000"></textarea>
-                      </div>
+                        <textarea name="custom-board" id="custom-board" class="form-control" cols="20" rows="10" placeholder="Create Your own board in the following format:&#10;0000000&#10;0000110&#10;0110000"></textarea>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" onclick="createYourOwn()">Load Board</button>
                 </div>
             </div>
             </div>
         </div>
+    </div>
 
     <!-- bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
